@@ -167,17 +167,17 @@
         <div class="tutor-list">
             <!-- Tutor Profile Card -->
             <div class="tutor-card">
-                <img src="https://via.placeholder.com/150" alt="Tutor 1">
+                <img src="t1.jpg" alt="Tutor 1">
                 <h4>John Doe</h4>
                 <p>Math Specialist with 5+ years of experience</p>
             </div>
             <div class="tutor-card">
-                <img src="https://via.placeholder.com/150" alt="Tutor 2">
+                <img src="t2.jpg" alt="Tutor 2">
                 <h4>Jane Smith</h4>
                 <p>Science Tutor with a passion for teaching</p>
             </div>
             <div class="tutor-card">
-                <img src="https://via.placeholder.com/150" alt="Tutor 3">
+                <img src="t3.jpg" alt="Tutor 3">
                 <h4>Emily Brown</h4>
                 <p>Experienced English Tutor</p>
             </div>
