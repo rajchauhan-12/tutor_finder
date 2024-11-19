@@ -1,3 +1,21 @@
+<?php
+// Include the database configuration file
+include 'includes/config.php';
+
+// Start session to track logged-in users
+session_start();
+
+// Handle logout
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header('Location: index.php');
+    exit;
+}
+
+// Get the logged-in user's name
+$userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +34,9 @@
             font-family: Arial, sans-serif;
             background-color: #f9fafb; /* Light gray background */
             color: #333333; /* Dark gray text */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the page spans the full height */
         }
 
         /* Navigation Bar */
@@ -26,7 +47,7 @@
             padding: 20px;
             background-color: #ffffff; /* White background for a clean look */
             color: #4a90e2; 
-            border-bottom: 1px solid #e0e0e0; /* Light gray bottom border for subtle separation */
+            border-bottom: 1px solid #e0e0e0; /* Light gray bottom border */
         }
 
         nav h1 {
@@ -56,6 +77,7 @@
             padding: 80px 20px;
             background-color: #f1f5f9; /* Very light blue background */
             color: #333333;
+            flex-grow: 1; /* Ensure the hero section expands to fill available space */
         }
 
         .hero h2 {
@@ -85,72 +107,34 @@
             background-color: #357ABD; /* Darker blue on hover */
         }
 
-        /* Featured Tutors Section */
-        .featured-tutors {
-            padding: 50px 20px;
-            text-align: center;
-            background-color: #ffffff; /* White background */
-        }
-
-        .featured-tutors h3 {
-            font-size: 2em;
-            color: #333333; /* Dark gray for headings */
-            margin-bottom: 30px;
-        }
-
-        .tutor-list {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .tutor-card {
-            width: 200px;
-            padding: 15px;
-            background-color: #f9fafb; /* Light gray for card background */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Light shadow for subtle depth */
-            text-align: center;
-            border: 1px solid #e0e0e0; /* Light gray border */
-        }
-
-        .tutor-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 50%;
-        }
-
-        .tutor-card h4 {
-            margin-top: 15px;
-            font-size: 1.2em;
-            color: #4a90e2; /* Blue for tutor names */
-        }
-
-        .tutor-card p {
-            color: #666666; /* Medium gray for body text */
-            font-size: 0.9em;
-        }
-
-        /* Footer */
+        /* Footer Section */
         footer {
+            background-color: #4a90e2; /* Blue background */
+            color: white; /* White text */
             text-align: center;
             padding: 20px;
-            background-color: #ffffff; /* White background */
-            color: #4a90e2; /* Blue text */
-            border-top: 1px solid #e0e0e0; /* Light gray top border */
+            font-size: 1.2em;
+            margin-top: auto; /* Push the footer to the bottom */
+        }
+
+        footer span {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-
     <!-- Navigation -->
     <nav>
         <h1>Tutor Finder</h1>
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li><a href="tutor.php">Tutors</a></li>
-            <li><a href="register_tutor.php">Register</a></li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li><a href="register_tutor.php">Register</a></li>
+                <li><a href="tutor.php">Tutors</a></li>
+                <li><a href="index.php?logout=1">Logout</a></li>
+            <?php else: ?>
+                <li><a href="login.php">Login</a></li>
+            <?php endif; ?>
         </ul>
     </nav>
 
@@ -161,33 +145,9 @@
         <a href="tutor.php" class="btn">Get Started</a>
     </section>
 
-    <!-- Featured Tutors Section -->
-    <section class="featured-tutors">
-        <h3>Featured Tutors</h3>
-        <div class="tutor-list">
-            <!-- Tutor Profile Card -->
-            <div class="tutor-card">
-                <img src="t1.jpg" alt="Tutor 1">
-                <h4>John Doe</h4>
-                <p>Math Specialist with 5+ years of experience</p>
-            </div>
-            <div class="tutor-card">
-                <img src="t2.jpg" alt="Tutor 2">
-                <h4>Jane Smith</h4>
-                <p>Science Tutor with a passion for teaching</p>
-            </div>
-            <div class="tutor-card">
-                <img src="t3.jpg" alt="Tutor 3">
-                <h4>Emily Brown</h4>
-                <p>Experienced English Tutor</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
-        <p>&copy; <?php echo date("Y"); ?> Tutor Finder. All rights reserved.</p>
+        Welcome to <span><?php echo htmlspecialchars($userName ?: 'Tutor Finder'); ?></span>
     </footer>
-
 </body>
 </html>
